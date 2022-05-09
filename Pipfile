@@ -11,6 +11,11 @@ yamllint = "*"
 
 [packages]
 wg-utilities = "*"
+growhat = {version = "*",sys_platform = "== 'linux'"}
+font-roboto = "*"
+fonts = "*"
+pillow = "*"
+"rpi.gpio" = {version = "*",sys_platform = "== 'linux'"}
 
 [requires]
 python_version = "3.9"
