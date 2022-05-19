@@ -11,11 +11,16 @@ yamllint = "*"
 
 [packages]
 wg-utilities = "*"
-growhat = {version = "*",sys_platform = "== 'linux'"}
+growhat = {version = "*", sys_platform = "== 'linux'"}
 font-roboto = "*"
 fonts = "*"
 pillow = "*"
-"rpi.gpio" = {version = "*",sys_platform = "== 'linux'"}
+"rpi.gpio" = {version = "*", sys_platform = "== 'linux'"}
+paho-mqtt = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.9"
+
+[scripts]
+monitor = "python src/monitor.py"
