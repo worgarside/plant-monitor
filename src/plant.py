@@ -8,8 +8,6 @@ try:
 
     TEST_MODE = False
 except ModuleNotFoundError:
-    from unittest.mock import MagicMock, Mock
-
     TEST_MODE = True
 
     class Moisture:

@@ -5,7 +5,8 @@ from time import sleep
 from paho.mqtt.publish import multiple
 from dotenv import load_dotenv
 
-from src import Plant, TEST_MODE
+from plant import Plant, TEST_MODE
+
 
 load_dotenv()
 
