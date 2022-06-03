@@ -5,6 +5,8 @@ from logging import getLogger, DEBUG
 from os import getenv
 from random import randint
 
+from wg_utilities.functions import try_float  # pylint: disable=no-name-in-module
+
 try:
     from grow.moisture import Moisture
 
@@ -86,11 +88,15 @@ class Plant:
     def get_limits_from_env_vars(self):
         """Get the wet/dry point limits from the environment"""
 
-        if (wet_point := getenv(f"{self.name.upper()}_WET_POINT")) is not None:
+        if (
+            wet_point := try_float(getenv(f"{self.name.upper()}_WET_POINT"), None)
+        ) is not None:
             LOGGER.debug("Setting %s wet point to %s", self.name, wet_point)
             self.moisture_sensor.set_wet_point(wet_point)
 
-        if dry_point := getenv(f"{self.name.upper()}_DRY_POINT"):
+        if (
+            dry_point := try_float(getenv(f"{self.name.upper()}_DRY_POINT"), None)
+        ) is not None:
             LOGGER.debug("Setting %s dry point to %s", self.name, dry_point)
             self.moisture_sensor.set_dry_point(dry_point)
 
