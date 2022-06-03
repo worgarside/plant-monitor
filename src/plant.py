@@ -1,6 +1,8 @@
 """Classes for use in the monitor"""
 
 from json import dumps
+from logging import getLogger, DEBUG
+from os import getenv
 from random import randint
 
 try:
@@ -15,6 +17,12 @@ except ModuleNotFoundError:
 
         def __init__(self, *_, **__):
             pass
+
+        def set_wet_point(self, _):
+            """Dummy function"""
+
+        def set_dry_point(self, _):
+            """Dummy function"""
 
         @property
         def moisture(self):
@@ -33,6 +41,10 @@ except ModuleNotFoundError:
             return round(randint(0, 10000) / 100)
 
 
+LOGGER = getLogger(__name__)
+LOGGER.setLevel(DEBUG)
+
+
 class Plant:
     """Class for monitoring (and watering, soon) plants
 
@@ -46,11 +58,41 @@ class Plant:
 
     SENSOR_ATTRIBUTES = ("moisture", "saturation")
 
-    def __init__(self, sensor_number, name, wet_point=0.7, dry_point=26.7):
+    def __init__(
+        self,
+        sensor_number,
+        name,
+        wet_point=None,
+        dry_point=None,
+        get_limits_from_env_vars=True,
+    ):
         self.name = name
+
         self.moisture_sensor = Moisture(
             sensor_number, wet_point=wet_point, dry_point=dry_point
         )
+
+        if get_limits_from_env_vars is True:
+            if not (wet_point is None and dry_point is None):
+                LOGGER.warning(
+                    "`get_limits_from_env_vars` arg is True, "
+                    "wet/dry point arguments will be ignored"
+                )
+            self.get_limits_from_env_vars()
+        else:
+            self.moisture_sensor.set_wet_point(wet_point)
+            self.moisture_sensor.set_dry_point(dry_point)
+
+    def get_limits_from_env_vars(self):
+        """Get the wet/dry point limits from the environment"""
+
+        if (wet_point := getenv(f"{self.name.upper()}_WET_POINT")) is not None:
+            LOGGER.debug("Setting %s wet point to %s", self.name, wet_point)
+            self.moisture_sensor.set_wet_point(wet_point)
+
+        if dry_point := getenv(f"{self.name.upper()}_DRY_POINT"):
+            LOGGER.debug("Setting %s dry point to %s", self.name, dry_point)
+            self.moisture_sensor.set_dry_point(dry_point)
 
     @property
     def home_assistant_payload(self):

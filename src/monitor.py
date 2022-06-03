@@ -2,20 +2,17 @@
 from datetime import datetime
 from json import dumps
 from logging import getLogger, DEBUG
-from os import getenv
+from os import getenv, environ
 from os.path import join
 from pathlib import Path
 from time import sleep
+
+from dotenv import load_dotenv, dotenv_values
 from paho.mqtt.publish import multiple
-from dotenv import load_dotenv
-from wg_utilities.functions import (  # pylint: disable=no-name-in-module
-    force_mkdir,
-    try_float,
-)
+from wg_utilities.functions import force_mkdir
 from wg_utilities.loggers import add_stream_handler, add_file_handler
 
-from plant import Plant, TEST_MODE
-
+from plant import Plant, TEST_MODE, LOGGER as PLANT_LOGGER
 
 LOGGER = getLogger(__name__)
 LOGGER.setLevel(DEBUG)
@@ -33,6 +30,7 @@ add_file_handler(
     ),
 )
 add_stream_handler(LOGGER)
+add_stream_handler(PLANT_LOGGER)
 
 load_dotenv()
 
@@ -45,32 +43,42 @@ MQTT_AUTH_KWARGS = dict(
 )
 
 PLANTS = [
-    Plant(i + 1, *plant)
-    for i, plant in enumerate(
+    Plant(i + 1, plant_name)
+    for i, plant_name in enumerate(
         (
-            (
-                "Monstera",
-                try_float(getenv("MONSTERA_WET_POINT"), None),
-                try_float(getenv("MONSTERA_DRY_POINT"), None),
-            ),
-            (
-                "Yukka",
-                try_float(getenv("YUKKA_WET_POINT"), None),
-                try_float(getenv("YUKKA_DRY_POINT"), None),
-            ),
-            (
-                "Succulent",
-                try_float(getenv("SUCCULENT_WET_POINT"), None),
-                try_float(getenv("SUCCULENT_DRY_POINT"), None),
-            ),
+            "Monstera",
+            "Yukka",
+            "Succulent",
         )
     )
 ]
 
 
+def check_for_limit_updates():
+    """Re-load the env vars, check for updated Plant limits, and update plants
+    accordingly
+    """
+    new_env_vars = dotenv_values()
+    old_env_vars = environ.copy()
+
+    for plant in PLANTS:
+        update_plant = False
+        for point_type in ("dry", "wet"):
+            env_var_key = f"{plant.name}_{point_type}_POINT".upper()
+
+            update_plant |= old_env_vars.get(env_var_key) != new_env_vars.get(
+                env_var_key
+            )
+
+        if update_plant:
+            load_dotenv(override=True)
+            plant.get_limits_from_env_vars()
+
+
 def main():
     """Send Home Assistant readings every 30 seconds"""
-    sleep(5)  # let the sensor initialise
+    if not TEST_MODE:
+        sleep(5)  # let the sensor initialise
 
     while True:
         msgs = [
@@ -87,6 +95,7 @@ def main():
             )
         LOGGER.debug(dumps(msgs))
         sleep(30)
+        check_for_limit_updates()
 
 
 if __name__ == "__main__":
