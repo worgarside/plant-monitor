@@ -48,7 +48,7 @@ PLANTS = [
         (
             "Monstera",
             "Yukka",
-            "Succulent",
+            "Ficus",
         )
     )
 ]

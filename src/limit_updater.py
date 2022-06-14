@@ -17,7 +17,7 @@ MQTT_AUTH_KWARGS = dict(
 
 TOPICS = [
     f"/plant_monitor/{plant}/{point_type}_point/set"
-    for plant in ("monstera", "yukka", "succulent")
+    for plant in ("monstera", "yukka", "ficus")
     for point_type in ("dry", "wet")
 ]
 
