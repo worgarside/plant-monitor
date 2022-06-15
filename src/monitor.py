@@ -12,7 +12,7 @@ from paho.mqtt.publish import multiple
 from wg_utilities.functions import force_mkdir
 from wg_utilities.loggers import add_stream_handler, add_file_handler
 
-from plant import Plant, TEST_MODE, LOGGER as PLANT_LOGGER
+from plant import TEST_MODE, PLANTS
 
 LOGGER = getLogger(__name__)
 LOGGER.setLevel(DEBUG)
@@ -30,7 +30,7 @@ add_file_handler(
     ),
 )
 add_stream_handler(LOGGER)
-add_stream_handler(PLANT_LOGGER)
+
 
 load_dotenv()
 
@@ -41,17 +41,6 @@ MQTT_AUTH_KWARGS = dict(
         "password": getenv("MQTT_PASSWORD"),
     },
 )
-
-PLANTS = [
-    Plant(i + 1, plant_name)
-    for i, plant_name in enumerate(
-        (
-            "Monstera",
-            "Yukka",
-            "Ficus",
-        )
-    )
-]
 
 
 def check_for_limit_updates():

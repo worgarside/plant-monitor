@@ -4,6 +4,8 @@ from os import getenv
 from dotenv import load_dotenv, find_dotenv, set_key
 from paho.mqtt.subscribe import callback
 
+from plant import PLANTS
+
 DOTENV_PATH = find_dotenv()
 load_dotenv(DOTENV_PATH)
 
@@ -15,10 +17,8 @@ MQTT_AUTH_KWARGS = dict(
     },
 )
 
-TOPICS = [
-    f"/plant_monitor/{plant}/{point_type}_point/set"
-    for plant in ("monstera", "yukka", "ficus")
-    for point_type in ("dry", "wet")
+TOPICS = [plant.dry_point_set_mqtt_topic for plant in PLANTS] + [
+    plant.wet_point_set_mqtt_topic for plant in PLANTS
 ]
 
 

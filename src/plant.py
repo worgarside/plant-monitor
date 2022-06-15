@@ -6,9 +6,11 @@ from os import getenv
 from random import randint
 
 from wg_utilities.functions import try_float  # pylint: disable=no-name-in-module
+from wg_utilities.loggers import add_stream_handler
 
 try:
     from grow.moisture import Moisture
+    from grow.pump import Pump
 
     TEST_MODE = False
 except ModuleNotFoundError:
@@ -42,9 +44,33 @@ except ModuleNotFoundError:
             """
             return round(randint(0, 10000) / 100)
 
+    class Pump:
+        """Dummy class for running this on a non-Pi machine"""
+
+        def __init__(self, *_, **__):
+            pass
+
+        def dose(self, speed, timeout=0.1, blocking=True, force=False):
+            """Pulse the pump for timeout seconds.
+
+            Args:
+                speed (float): the pump speed
+                timeout (float): timeout, in seconds, of the pump pulse
+                blocking (bool): if true, function will block until pump has stopped
+                force (bool): applies only to non-blocking. If true, any previous dose
+                 will be replaced
+
+            Returns:
+
+            """
+
+        def stop(self):
+            """Stop the pump."""
+
 
 LOGGER = getLogger(__name__)
 LOGGER.setLevel(DEBUG)
+add_stream_handler(LOGGER)
 
 
 class Plant:
@@ -62,17 +88,26 @@ class Plant:
 
     def __init__(
         self,
-        sensor_number,
+        *,
         name,
+        sensor_number,
+        pump_number,
         wet_point=None,
         dry_point=None,
         get_limits_from_env_vars=True,
     ):
         self.name = name
 
+        self.dry_point_set_mqtt_topic = f"/plant_monitor/{name.lower()}/dry_point/set"
+        self.wet_point_set_mqtt_topic = f"/plant_monitor/{name.lower()}/wet_point/set"
+        self.water_mqtt_topic = f"/plant_monitor/{name.lower()}/water"
+
         self.moisture_sensor = Moisture(
             sensor_number, wet_point=wet_point, dry_point=dry_point
         )
+
+        self._pump_number = pump_number
+        self._pump = None
 
         if get_limits_from_env_vars is True:
             if not (wet_point is None and dry_point is None):
@@ -99,6 +134,19 @@ class Plant:
         ) is not None:
             LOGGER.debug("Setting %s dry point to %s", self.name, dry_point)
             self.moisture_sensor.set_dry_point(dry_point)
+
+    def water(self, seconds: float):
+        """Water the plant for X seconds
+
+        Args:
+            seconds (float): how long to water the plant for
+        """
+        self.pump.dose(
+            speed=0.1,
+            timeout=seconds,
+        )
+
+        LOGGER.info("Watering for %f seconds", seconds)
 
     @property
     def home_assistant_payload(self):
@@ -127,6 +175,23 @@ class Plant:
         return round(moisture, 6)
 
     @property
+    def pump(self) -> Pump:
+        """The plant's water pump. This isn't an attribute, as only the waterer service
+        needs the pump and creating a Pump instance within the monitor service will
+        block the GPIO PWN usage
+
+        Returns:
+            Pump: the plant's pump
+        """
+        if not self._pump:
+            LOGGER.debug(
+                "Creating pump for %s on channel %i", self.name, self._pump_number
+            )
+            self._pump = Pump(self._pump_number)
+
+        return self._pump
+
+    @property
     def saturation(self):
         """Return saturation as a float from 0.0 to 1.0. This value is calculated
          using the wet and dry points.
@@ -141,3 +206,15 @@ class Plant:
 
     def __str__(self):
         return f"{self.name}:\t{self.moisture}"
+
+
+PLANTS = [
+    Plant(name=plant_name, sensor_number=i + 1, pump_number=i + 1)
+    for i, plant_name in enumerate(
+        (
+            "Monstera",
+            "Yukka",
+            "Ficus",
+        )
+    )
+]
