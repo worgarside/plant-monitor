@@ -8,6 +8,7 @@ black = "*"
 pylint = "*"
 pre-commit = "*"
 yamllint = "*"
+mypy = "*"
 
 [packages]
 wg-utilities = "*"

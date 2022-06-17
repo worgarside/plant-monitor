@@ -20,6 +20,7 @@ test.py
 *.html
 .google_maps_location_sharing.cookies.*_com
 sandbox
+.mypy_cache
 
 *.tmp
 

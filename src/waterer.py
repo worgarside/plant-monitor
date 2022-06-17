@@ -1,16 +1,19 @@
 """Subscribes to an MQTT topic, so watering can be done from HA"""
 from datetime import datetime
-from logging import getLogger, DEBUG
+from logging import DEBUG, getLogger
 from os import getenv
 from os.path import join
 from pathlib import Path
+from typing import Any
 
 from dotenv import load_dotenv
+from paho.mqtt.client import MQTTMessage
 from paho.mqtt.subscribe import callback
 from wg_utilities.functions import force_mkdir
 from wg_utilities.loggers import add_file_handler, add_stream_handler
 
-from plant import PLANTS, LOGGER as PLANT_LOGGER
+from plant import LOGGER as PLANT_LOGGER
+from plant import PLANTS
 
 load_dotenv()
 
@@ -55,7 +58,7 @@ TOPICS = {plant.water_mqtt_topic: plant for plant in PLANTS}
 
 
 # noinspection PyIncorrectDocstring
-def on_message(_, __, message):
+def on_message(_: Any, __: Any, message: MQTTMessage) -> None:
     """Callback method for watering the plants on MQTT message
 
     Args:

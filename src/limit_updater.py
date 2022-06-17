@@ -1,7 +1,9 @@
 """Subscribes to an MQTT topic, so HA can push updates to the limits"""
 from os import getenv
+from typing import Any
 
-from dotenv import load_dotenv, find_dotenv, set_key
+from dotenv import find_dotenv, load_dotenv, set_key
+from paho.mqtt.client import MQTTMessage
 from paho.mqtt.subscribe import callback
 
 from plant import PLANTS
@@ -23,7 +25,7 @@ TOPICS = [plant.dry_point_set_mqtt_topic for plant in PLANTS] + [
 
 
 # noinspection PyIncorrectDocstring
-def on_message(_, __, message):
+def on_message(_: Any, __: Any, message: MQTTMessage) -> None:
     """Callback method for updating env vars on MQTT message
 
     Args:

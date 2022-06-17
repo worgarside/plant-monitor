@@ -1,12 +1,16 @@
 """Classes for use in the monitor"""
 
 from json import dumps
-from logging import getLogger, DEBUG
+from logging import DEBUG, getLogger
 from os import getenv
 from random import randint
+from typing import Optional, Union
 
+from dotenv import load_dotenv
 from wg_utilities.functions import try_float  # pylint: disable=no-name-in-module
 from wg_utilities.loggers import add_stream_handler
+
+load_dotenv()
 
 try:
     from grow.moisture import Moisture
@@ -16,20 +20,27 @@ try:
 except ModuleNotFoundError:
     TEST_MODE = True
 
-    class Moisture:
+    class Moisture:  # type: ignore
         """Dummy class for running this on a non-Pi machine"""
 
-        def __init__(self, *_, **__):
-            pass
+        def __init__(
+            self,
+            channel: int = 1,
+            wet_point: Optional[float] = None,
+            dry_point: Optional[float] = None,
+        ) -> None:
+            self.channel = channel
+            self.wet_point = wet_point
+            self.dry_point = dry_point
 
-        def set_wet_point(self, _):
+        def set_wet_point(self, _: float) -> None:
             """Dummy function"""
 
-        def set_dry_point(self, _):
+        def set_dry_point(self, _: float) -> None:
             """Dummy function"""
 
         @property
-        def moisture(self):
+        def moisture(self) -> int:
             """
             Returns:
                 int: random integer for fake moisture reading
@@ -37,20 +48,26 @@ except ModuleNotFoundError:
             return randint(0, 900)
 
         @property
-        def saturation(self):
+        def saturation(self) -> float:
             """
             Returns:
                 float: random float for fake saturation reading
             """
-            return round(randint(0, 10000) / 100)
+            return round(randint(0, 10000) / 100, 2)
 
-    class Pump:
+    class Pump:  # type: ignore
         """Dummy class for running this on a non-Pi machine"""
 
-        def __init__(self, *_, **__):
+        def __init__(self, *_: None, **__: None) -> None:
             pass
 
-        def dose(self, speed, timeout=0.1, blocking=True, force=False):
+        def dose(
+            self,
+            speed: float,
+            timeout: float = 0.1,
+            blocking: bool = True,
+            force: bool = False,
+        ) -> None:
             """Pulse the pump for timeout seconds.
 
             Args:
@@ -59,12 +76,9 @@ except ModuleNotFoundError:
                 blocking (bool): if true, function will block until pump has stopped
                 force (bool): applies only to non-blocking. If true, any previous dose
                  will be replaced
-
-            Returns:
-
             """
 
-        def stop(self):
+        def stop(self) -> None:
             """Stop the pump."""
 
 
@@ -89,13 +103,13 @@ class Plant:
     def __init__(
         self,
         *,
-        name,
-        sensor_number,
-        pump_number,
-        wet_point=None,
-        dry_point=None,
-        get_limits_from_env_vars=True,
-    ):
+        name: str,
+        sensor_number: int,
+        pump_number: int,
+        wet_point: Optional[float] = None,
+        dry_point: Optional[float] = None,
+        get_limits_from_env_vars: bool = True,
+    ) -> None:
         self.name = name
 
         self.dry_point_set_mqtt_topic = f"/plant_monitor/{name.lower()}/dry_point/set"
@@ -120,36 +134,48 @@ class Plant:
             self.moisture_sensor.set_wet_point(wet_point)
             self.moisture_sensor.set_dry_point(dry_point)
 
-    def get_limits_from_env_vars(self):
+    def get_limits_from_env_vars(self) -> None:
         """Get the wet/dry point limits from the environment"""
 
         if (
-            wet_point := try_float(getenv(f"{self.name.upper()}_WET_POINT"), None)
-        ) is not None:
+            wet_point := try_float(
+                getenv(wet_point_ev_name := f"{self.name.upper()}_WET_POINT"), None
+            )
+        ) is None:
+            LOGGER.error(
+                "Unable to get env var %s: value is %s", wet_point_ev_name, wet_point
+            )
+        else:
             LOGGER.debug("Setting %s wet point to %s", self.name, wet_point)
             self.moisture_sensor.set_wet_point(wet_point)
 
         if (
-            dry_point := try_float(getenv(f"{self.name.upper()}_DRY_POINT"), None)
-        ) is not None:
+            dry_point := try_float(
+                getenv(dry_point_ev_name := f"{self.name.upper()}_DRY_POINT"), None
+            )
+        ) is None:
+            LOGGER.error(
+                "Unable to get env var %s: value is %s", dry_point_ev_name, dry_point
+            )
+        else:
             LOGGER.debug("Setting %s dry point to %s", self.name, dry_point)
             self.moisture_sensor.set_dry_point(dry_point)
 
-    def water(self, seconds: float):
+    def water(self, seconds: float) -> None:
         """Water the plant for X seconds
 
         Args:
             seconds (float): how long to water the plant for
         """
         self.pump.dose(
-            speed=0.1,
+            speed=1,
             timeout=seconds,
         )
 
         LOGGER.info("Watering for %f seconds", seconds)
 
     @property
-    def home_assistant_payload(self):
+    def home_assistant_payload(self) -> str:
         """
         Returns:
             str: a payload for Home Assistant with the relevant readings
@@ -162,13 +188,14 @@ class Plant:
         )
 
     @property
-    def moisture(self):
+    def moisture(self) -> Union[str, float]:
         """Return the raw moisture level. The value returned is the pulses/sec read
          from the soil moisture sensor.
 
         Returns:
             Union[str, float]: the moisture level, or a default if it's unknown
         """
+        moisture: float
         if (moisture := self.moisture_sensor.moisture) in (0, 1):
             return "unknown"
 
@@ -192,19 +219,24 @@ class Plant:
         return self._pump
 
     @property
-    def saturation(self):
-        """Return saturation as a float from 0.0 to 1.0. This value is calculated
-         using the wet and dry points.
+    def saturation(self) -> Union[str, float]:
+        """Calculate the saturation value from scratch, as the `Moisture.saturation`
+        is already rounded to 3dp (which then becomes 1dp when we multiply it up to a
+         percentage value)
 
         Returns:
             Union[str, float]: the saturation level, or a default if it's unknown
         """
-        if (saturation := self.moisture_sensor.saturation) in (0, 1):
-            return "unknown"
+        saturation: float = (
+            # pylint: disable=protected-access
+            float(self.moisture_sensor.moisture - self.moisture_sensor._dry_point)
+        ) / self.moisture_sensor.range
+
+        saturation = max(0.0, min(1.0, saturation))
 
         return round(saturation * 100, 3)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}:\t{self.moisture}"
 
 
