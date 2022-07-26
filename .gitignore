@@ -20,7 +20,15 @@ test.py
 *.html
 .google_maps_location_sharing.cookies.*_com
 sandbox
-.mypy_cache
+addons/**/.ssh
+secret_files
+.env
+*.DS_Store
+*.idea
+__pycache__
+*.pkl
+logs
+.cache
 
 *.tmp
 
@@ -123,12 +131,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-utilities/fake-data/node_modules/
-!utilities/fake-data/inputData/*.json
-!utilities/fake-data/*.json
-!utilities/fake-data/data/*.json
-!utilities/fake-data/data/defaults/*.json
-!utilities/fake-data/data/defaults/*.csv
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
