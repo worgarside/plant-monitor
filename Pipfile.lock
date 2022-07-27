@@ -896,11 +896,11 @@
         },
         "wg-utilities": {
             "hashes": [
-                "sha256:40a3ae6b16ff602ab6c343f9cd213337e9af9d34d130c6d4a4d27099d9774611",
-                "sha256:b3a6da10b02d9407e59012923b4341650024e971f5ef8677291f51a3ad734c41"
+                "sha256:16203fa858f0f75f6328b262eeb39694651a1682e12e0af3947b787626e17bec",
+                "sha256:20ee00d27b95850958edb9fa8f327991ed41b64e1828016122a04125d2b142d0"
             ],
             "index": "pypi",
-            "version": "==2.24.0"
+            "version": "==2.24.3"
         },
         "wrapt": {
             "hashes": [
@@ -1346,7 +1346,7 @@
                 "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc",
                 "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"
             ],
-            "markers": "python_version < '3.11'",
+            "markers": "python_full_version < '3.11.0a7'",
             "version": "==2.0.1"
         },
         "tomlkit": {
@@ -1367,11 +1367,11 @@
         },
         "virtualenv": {
             "hashes": [
-                "sha256:2202dbc33c4f9aaa13289d244d64f2ade8b0169e88d0213b505099b384c5ae04",
-                "sha256:6cfedd21e7584124a1d1e8f3b6e74c0bf8aeea44d9884b6d2d7241de5361a73c"
+                "sha256:6cc42cad4d1a15c7ea5ed68e602eb49cc243b52d2eead36e577555cb56bf8705",
+                "sha256:bde925b831f36053a0fa7a468ca337dee26851c9f0bfc3d72a79d534703102d2"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==20.16.0"
+            "version": "==20.16.1"
         },
         "wrapt": {
             "hashes": [
