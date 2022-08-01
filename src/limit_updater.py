@@ -5,6 +5,7 @@ from typing import Any
 from dotenv import find_dotenv, load_dotenv, set_key
 from paho.mqtt.client import MQTTMessage
 from paho.mqtt.subscribe import callback
+from wg_utilities.exceptions import on_exception  # pylint: disable=no-name-in-module
 
 from plant import PLANTS
 
@@ -25,6 +26,7 @@ TOPICS = [plant.dry_point_set_mqtt_topic for plant in PLANTS] + [
 
 
 # noinspection PyIncorrectDocstring
+@on_exception()  # type: ignore[misc]
 def on_message(_: Any, __: Any, message: MQTTMessage) -> None:
     """Callback method for updating env vars on MQTT message
 

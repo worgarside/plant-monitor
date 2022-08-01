@@ -9,6 +9,7 @@ from time import sleep
 
 from dotenv import dotenv_values, load_dotenv
 from paho.mqtt.publish import multiple
+from wg_utilities.exceptions import on_exception  # pylint: disable=no-name-in-module
 from wg_utilities.functions import force_mkdir
 from wg_utilities.loggers import add_file_handler, add_stream_handler
 
@@ -43,6 +44,7 @@ MQTT_AUTH_KWARGS = dict(
 )
 
 
+@on_exception()  # type: ignore[misc]
 def check_for_limit_updates() -> None:
     """Re-load the env vars, check for updated Plant limits, and update plants
     accordingly
@@ -64,6 +66,7 @@ def check_for_limit_updates() -> None:
             plant.get_limits_from_env_vars()
 
 
+@on_exception()  # type: ignore[misc]
 def main() -> None:
     """Send Home Assistant readings every 30 seconds"""
     if not TEST_MODE:

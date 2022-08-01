@@ -9,6 +9,7 @@ from typing import Any
 from dotenv import load_dotenv
 from paho.mqtt.client import MQTTMessage
 from paho.mqtt.subscribe import callback
+from wg_utilities.exceptions import on_exception  # pylint: disable=no-name-in-module
 from wg_utilities.functions import force_mkdir
 from wg_utilities.loggers import add_file_handler, add_stream_handler
 
@@ -58,6 +59,7 @@ TOPICS = {plant.water_mqtt_topic: plant for plant in PLANTS}
 
 
 # noinspection PyIncorrectDocstring
+@on_exception()  # type: ignore[misc]
 def on_message(_: Any, __: Any, message: MQTTMessage) -> None:
     """Callback method for watering the plants on MQTT message
 

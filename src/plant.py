@@ -7,6 +7,7 @@ from random import randint
 from typing import Optional, Union
 
 from dotenv import load_dotenv
+from wg_utilities.exceptions import on_exception  # pylint: disable=no-name-in-module
 from wg_utilities.functions import try_float  # pylint: disable=no-name-in-module
 from wg_utilities.loggers import add_stream_handler
 
@@ -100,6 +101,7 @@ class Plant:
 
     SENSOR_ATTRIBUTES = ("moisture", "saturation")
 
+    @on_exception()  # type: ignore[misc]
     def __init__(
         self,
         *,
@@ -134,6 +136,7 @@ class Plant:
             self.moisture_sensor.set_wet_point(wet_point)
             self.moisture_sensor.set_dry_point(dry_point)
 
+    @on_exception()  # type: ignore[misc]
     def get_limits_from_env_vars(self) -> None:
         """Get the wet/dry point limits from the environment"""
 
@@ -161,6 +164,7 @@ class Plant:
             LOGGER.debug("Setting %s dry point to %s", self.name, dry_point)
             self.moisture_sensor.set_dry_point(dry_point)
 
+    @on_exception()  # type: ignore[misc]
     def water(self, seconds: float) -> None:
         """Water the plant for X seconds
 
