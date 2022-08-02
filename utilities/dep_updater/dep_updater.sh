@@ -31,7 +31,7 @@ mkdir -p ~/logs/dep_updater || :
 #if only pipfiles have changed, then pull and install
 if $pipfiles_only; then
   git pull >> "$log_path" 2>&1
-  pipenv install --skip-lock >> "$log_path" 2>&1
+  pipenv install --ignore-pipfile >> "$log_path" 2>&1
 else
   echo "Not running updates" >> "$log_path"
 fi
