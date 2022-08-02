@@ -71,10 +71,15 @@ def on_message(_: Any, __: Any, message: MQTTMessage) -> None:
     """
 
     _, _, plant_name, point_type, _ = message.topic.split("/")
+
+    ev_name = f"{plant_name.upper()}_{point_type.upper()}"
+    value = message.payload.decode()
+
+    LOGGER.debug("Setting %s to %s", ev_name, value)
     set_key(
         DOTENV_PATH,
-        f"{plant_name.upper()}_{point_type.upper()}",
-        message.payload.decode(),
+        ev_name,
+        value,
     )
 
 
