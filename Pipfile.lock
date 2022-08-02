@@ -206,11 +206,11 @@
         },
         "wg-utilities": {
             "hashes": [
-                "sha256:24891024c71b66fe14430f1f65098899b9cfb51e0f2ecaa58b2967b264077fee",
-                "sha256:d708a5374c883cfc2b33f90addea3149d93562e0de98630712fe7f49d48fd2e2"
+                "sha256:58affe3281305666aa7d8ff8a278f4d1cb4ebe245974e4d12ddcc4b9d69a751c",
+                "sha256:ca5299cff016b2c66708476e9522061e1042c3d0050796777a486fb85bddbc98"
             ],
             "index": "pypi",
-            "version": "==2.26.1"
+            "version": "==2.27.0"
         }
     },
     "develop": {
@@ -492,7 +492,7 @@
                 "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc",
                 "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"
             ],
-            "markers": "python_full_version < '3.11.0a7'",
+            "markers": "python_version < '3.11'",
             "version": "==2.0.1"
         },
         "tomlkit": {
