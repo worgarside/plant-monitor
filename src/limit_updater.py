@@ -1,16 +1,52 @@
 """Subscribes to an MQTT topic, so HA can push updates to the limits"""
+from datetime import datetime
+from logging import DEBUG, getLogger
 from os import getenv
+from os.path import join
+from pathlib import Path
 from typing import Any
 
 from dotenv import find_dotenv, load_dotenv, set_key
 from paho.mqtt.client import MQTTMessage
 from paho.mqtt.subscribe import callback
 from wg_utilities.exceptions import on_exception  # pylint: disable=no-name-in-module
+from wg_utilities.functions import force_mkdir
+from wg_utilities.loggers import add_file_handler, add_stream_handler
 
+from plant import LOGGER as PLANT_LOGGER
 from plant import PLANTS
 
 DOTENV_PATH = find_dotenv()
 load_dotenv(DOTENV_PATH)
+
+LOGGER = getLogger(__name__)
+LOGGER.setLevel(DEBUG)
+LOGFILE = f"{datetime.today().strftime('%Y-%m-%d')}.log"
+add_file_handler(
+    LOGGER,
+    logfile_path=force_mkdir(
+        join(
+            Path.home(),
+            "logs",
+            "limit_updater",
+            LOGFILE,
+        ),
+        path_is_file=True,
+    ),
+)
+add_file_handler(
+    PLANT_LOGGER,
+    logfile_path=force_mkdir(
+        join(
+            Path.home(),
+            "logs",
+            "limit_updater",
+            LOGFILE,
+        ),
+        path_is_file=True,
+    ),
+)
+add_stream_handler(LOGGER)
 
 MQTT_AUTH_KWARGS = dict(
     hostname=getenv("MQTT_HOST"),
@@ -42,4 +78,5 @@ def on_message(_: Any, __: Any, message: MQTTMessage) -> None:
     )
 
 
+LOGGER.info("Listening on topics:    \n%s", "    \n".join(TOPICS))
 callback(on_message, TOPICS, **MQTT_AUTH_KWARGS)

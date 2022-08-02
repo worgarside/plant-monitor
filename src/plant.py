@@ -192,18 +192,14 @@ class Plant:
         )
 
     @property
-    def moisture(self) -> Union[str, float]:
+    def moisture(self) -> float:
         """Return the raw moisture level. The value returned is the pulses/sec read
          from the soil moisture sensor.
 
         Returns:
             Union[str, float]: the moisture level, or a default if it's unknown
         """
-        moisture: float
-        if (moisture := self.moisture_sensor.moisture) in (0, 1):
-            return "unknown"
-
-        return round(moisture, 6)
+        return float(round(self.moisture_sensor.moisture, 6))
 
     @property
     def pump(self) -> Pump:
