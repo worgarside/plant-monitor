@@ -1,12 +1,14 @@
 #!/bin/bash
 
 repo_path=$(git rev-parse --show-toplevel)
-sh_path=$(which sh)
+bash_path=$(which bash)
+
+mkdir -p ~/logs/dep_updater || :
 
 #write out current crontab
 crontab -l > tempcron
 #echo new cron into cron file
-echo "0 4 * * * ${sh_path} ${repo_path}/utilities/dep_updater/dep_updater.sh" >> tempcron
+echo "0 4 * * * ${bash_path} ${repo_path}/utilities/dep_updater/dep_updater.sh >> \"~/logs/dep_updater/$(date +20\%y-\%m-\%d).log\" 2>&1" >> tempcron
 # install new cron file
 crontab tempcron
 rm tempcron
