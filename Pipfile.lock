@@ -206,11 +206,11 @@
         },
         "wg-utilities": {
             "hashes": [
-                "sha256:8db0f9c6b856cc7b2aaaa79f6c215e391611f3321742ff11c105e3a9d2423dbc",
-                "sha256:b063291a4785e598ee1833258ddd509739b4c83f605b220a63691995067ed7a9"
+                "sha256:b2096fcf26ada76be8a829866320ae465d1d229181e94ca63bb563c778a024dd",
+                "sha256:b63c9a0b3034d5c236cc88674f101e38435c950f15c54e5d852270bfbd6a4d49"
             ],
             "index": "pypi",
-            "version": "==2.29.0"
+            "version": "==2.29.1"
         }
     },
     "develop": {
@@ -508,7 +508,7 @@
                 "sha256:25642c956049920a5aa49edcdd6ab1e06d7e5d467fc00e0506c44ac86fbfca02",
                 "sha256:e6d2677a32f47fc7eb2795db1dd15c1f34eff616bcaf2cfb5e997f854fa1c4a6"
             ],
-            "markers": "python_version >= '3.7'",
+            "markers": "python_version < '3.10'",
             "version": "==4.3.0"
         },
         "virtualenv": {
