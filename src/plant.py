@@ -13,6 +13,10 @@ from wg_utilities.loggers import add_stream_handler
 
 load_dotenv()
 
+LOGGER = getLogger(__name__)
+LOGGER.setLevel(DEBUG)
+add_stream_handler(LOGGER)
+
 try:
     from grow.moisture import Moisture
     from grow.pump import Pump
@@ -20,6 +24,8 @@ try:
     TEST_MODE = False
 except ModuleNotFoundError:
     TEST_MODE = True
+
+    LOGGER.warning("Unable to import GrowHat dependencies, running in test mode")
 
     class Moisture:  # type: ignore
         """Dummy class for running this on a non-Pi machine"""
@@ -31,14 +37,16 @@ except ModuleNotFoundError:
             dry_point: Optional[float] = None,
         ) -> None:
             self.channel = channel
-            self.wet_point = wet_point
-            self.dry_point = dry_point
+            self._wet_point = wet_point or 10.0
+            self._dry_point = dry_point or 0.0
 
-        def set_wet_point(self, _: float) -> None:
+        def set_wet_point(self, value: float) -> None:
             """Dummy function"""
+            self._wet_point = value
 
-        def set_dry_point(self, _: float) -> None:
+        def set_dry_point(self, value: float) -> None:
             """Dummy function"""
+            self._dry_point = value
 
         @property
         def moisture(self) -> int:
@@ -47,6 +55,11 @@ except ModuleNotFoundError:
                 int: random integer for fake moisture reading
             """
             return randint(0, 900)
+
+        @property
+        def range(self) -> float:
+            """Return the range sensor range (wet - dry points)."""
+            return self._wet_point - self._dry_point
 
         @property
         def saturation(self) -> float:
@@ -83,20 +96,24 @@ except ModuleNotFoundError:
             """Stop the pump."""
 
 
-LOGGER = getLogger(__name__)
-LOGGER.setLevel(DEBUG)
-add_stream_handler(LOGGER)
+PLANT_NAMES = (
+    "Monstera",
+    "Yukka",
+    "Ficus",
+)
 
 
 class Plant:
     """Class for monitoring (and watering, soon) plants
 
     Args:
-        sensor_number (int): the channel the sensor is plugged into on the hat
         name (str): the name of the plant
+        sensor_number (int): the channel the sensor is plugged into on the hat
+        pump_number (int): the channel the pump is plugged into on the hat
         wet_point (float): the moisture value at which the soil is considered wet
         dry_point (float): the moisture value at which the soil is considered dry
-
+        get_limits_from_env_vars (bool): for getting initial point values from
+         environment variables
     """
 
     SENSOR_ATTRIBUTES = ("moisture", "saturation")
@@ -114,8 +131,6 @@ class Plant:
     ) -> None:
         self.name = name
 
-        self.dry_point_set_mqtt_topic = f"/plant_monitor/{name.lower()}/dry_point/set"
-        self.wet_point_set_mqtt_topic = f"/plant_monitor/{name.lower()}/wet_point/set"
         self.water_mqtt_topic = f"/plant_monitor/{name.lower()}/water"
 
         self.moisture_sensor = Moisture(
@@ -238,15 +253,3 @@ class Plant:
 
     def __str__(self) -> str:
         return f"{self.name}:\t{self.moisture}"
-
-
-PLANTS = [
-    Plant(name=plant_name, sensor_number=i + 1, pump_number=i + 1)
-    for i, plant_name in enumerate(
-        (
-            "Monstera",
-            "Yukka",
-            "Ficus",
-        )
-    )
-]

@@ -11,7 +11,7 @@ yamllint = "*"
 mypy = "*"
 
 [packages]
-wg-utilities = "*"
+wg-utilities = {extras = ["exceptions"], version = "*"}
 growhat = {version = "*", sys_platform = "== 'linux'"}
 font-roboto = "*"
 fonts = "*"
@@ -22,6 +22,3 @@ python-dotenv = "*"
 
 [requires]
 python_version = "3.9"
-
-[scripts]
-monitor = "python src/monitor.py"

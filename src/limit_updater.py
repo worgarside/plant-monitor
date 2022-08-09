@@ -14,7 +14,7 @@ from wg_utilities.functions import force_mkdir
 from wg_utilities.loggers import add_file_handler, add_stream_handler
 
 from plant import LOGGER as PLANT_LOGGER
-from plant import PLANTS
+from plant import PLANT_NAMES
 
 DOTENV_PATH = find_dotenv()
 load_dotenv(DOTENV_PATH)
@@ -56,8 +56,10 @@ MQTT_AUTH_KWARGS = dict(
     },
 )
 
-TOPICS = [plant.dry_point_set_mqtt_topic for plant in PLANTS] + [
-    plant.wet_point_set_mqtt_topic for plant in PLANTS
+TOPICS = [
+    f"/plant_monitor/{plant_name.lower()}/{point_type}_point/set"
+    for plant_name in PLANT_NAMES
+    for point_type in ("dry", "wet")
 ]
 
 
@@ -83,5 +85,5 @@ def on_message(_: Any, __: Any, message: MQTTMessage) -> None:
     )
 
 
-LOGGER.info("Listening on topics:    \n%s", "    \n".join(TOPICS))
+LOGGER.info("Listening on topics:    \n\t%s", "\n\t".join(TOPICS))
 callback(on_message, TOPICS, **MQTT_AUTH_KWARGS)
