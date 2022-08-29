@@ -247,11 +247,11 @@
                 "exceptions"
             ],
             "hashes": [
-                "sha256:18babb9c69dc683a13b8586d60a6776bccce98182bfdc4bde4bac817a0c9bba0",
-                "sha256:1c8d4222c2c58bde4239be92e218ca39c1f11a1b5f9a7befc7fdc06ad5727450"
+                "sha256:203c2c08b7b27ec363e983299369636cca774d9a2efa613cf8f67379ba08f957",
+                "sha256:57c05e74fd25dfc7f3149f3defa8a4b10cb7c74b61a37c68e0ed19b26bc860a4"
             ],
             "index": "pypi",
-            "version": "==2.30.1"
+            "version": "==2.30.2"
         }
     },
     "develop": {
