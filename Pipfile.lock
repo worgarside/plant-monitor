@@ -256,11 +256,11 @@
                 "exceptions"
             ],
             "hashes": [
-                "sha256:203c2c08b7b27ec363e983299369636cca774d9a2efa613cf8f67379ba08f957",
-                "sha256:57c05e74fd25dfc7f3149f3defa8a4b10cb7c74b61a37c68e0ed19b26bc860a4"
+                "sha256:89971e27f434a6b301cf8228332bd77f1bbb8e6a5bd365aa13c2a67c28f3eb2f",
+                "sha256:b04c8a1eb0c1a54d3aff5458d330f376b6b499b1065f2cba2bf4dbcac9bbcfa6"
             ],
             "index": "pypi",
-            "version": "==2.30.2"
+            "version": "==2.31.0"
         }
     },
     "develop": {
@@ -550,7 +550,7 @@
                 "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc",
                 "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"
             ],
-            "markers": "python_full_version < '3.11.0a7'",
+            "markers": "python_version < '3.11'",
             "version": "==2.0.1"
         },
         "tomlkit": {
