@@ -21,7 +21,7 @@
                 "sha256:0d9c601124e5a6ba9712dbc60d9c53c21e34f5f641fe83002317394311bdce14",
                 "sha256:90c1a32f1d68f940488354e36370f6cca89f0f106db09518524c88d6ed83f382"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==2022.9.24"
         },
         "charset-normalizer": {
@@ -29,7 +29,7 @@
                 "sha256:5a3d016c7c547f69d6f81fb0db9449ce888b418b5b9952cc5e6e66843e9dd845",
                 "sha256:83e9a75d1911279afd89352c68b45348559d1fc0506b054b346651b5e7fee29f"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==2.1.1"
         },
         "font-roboto": {
@@ -206,7 +206,7 @@
                 "sha256:e61ceaab6f49fb8bdfaa0f92c4b57bcfbea54c09277b1b4f7ac376bfb7a7c174",
                 "sha256:f84fbc98b019fef2ee9a1cb3ce93e3187a6df0b2538a651bfb890254ba9f90b5"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==6.0"
         },
         "requests": {
@@ -256,11 +256,11 @@
                 "exceptions"
             ],
             "hashes": [
-                "sha256:08fa651e1157305386c22ec71caeaf1609b8f1199cfe0e558b6ce76ec1de2265",
-                "sha256:9f5609dd8a388bd2ff55f4fe5fbc64c625d0e1ecf45a73a78c4fd920b541785d"
+                "sha256:3c9151801196ba09c55e38e30f18517db6cd52fb361d2bc81526b049ca99e682",
+                "sha256:cb6dd0c26f8b5cb8b65d7fb7c3f69f21a99c65cc60dea73fefe26d649563b064"
             ],
             "index": "pypi",
-            "version": "==2.31.1"
+            "version": "==2.32.0"
         }
     },
     "develop": {
@@ -525,7 +525,7 @@
                 "sha256:e61ceaab6f49fb8bdfaa0f92c4b57bcfbea54c09277b1b4f7ac376bfb7a7c174",
                 "sha256:f84fbc98b019fef2ee9a1cb3ce93e3187a6df0b2538a651bfb890254ba9f90b5"
             ],
-            "markers": "python_version >= '3.6'",
+            "markers": "python_full_version >= '3.6.0'",
             "version": "==6.0"
         },
         "setuptools": {
@@ -565,7 +565,7 @@
                 "sha256:1511434bb92bf8dd198c12b1cc812e800d4181cfcb867674e0f8279cc93087aa",
                 "sha256:16fa4864408f655d35ec496218b85f79b3437c829e93320c7c9215ccfd92489e"
             ],
-            "markers": "python_version >= '3.7'",
+            "markers": "python_version < '3.10'",
             "version": "==4.4.0"
         },
         "virtualenv": {
