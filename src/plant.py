@@ -98,7 +98,7 @@ except ModuleNotFoundError:
 
 PLANT_NAMES = (
     "Monstera",
-    "Yukka",
+    "Pineapple",
     "Ficus",
 )
 
