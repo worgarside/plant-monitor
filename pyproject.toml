@@ -15,9 +15,6 @@ exclude = '''
 )/
 '''
 
-[tool.codespell]
-skip = '*.json,*.csv,*.xml'
-
 [tool.isort]
 profile = "black"
 
@@ -35,6 +32,9 @@ no_implicit_reexport = true
 disallow_untyped_defs = true
 enable_recursive_aliases = true
 
+[tool.codespell]
+skip = '*.json,*.csv,*.xml'
+
 [tool.pydantic-mypy]
 init_forbid_extra = true
 init_typed = true
@@ -46,7 +46,6 @@ path = "*"
 expand_stars = true
 all = true
 no_gitignore = false
-
 
 [tool.ruff]
 # Longer line length to avoid throwing errors in case where black doesn't
