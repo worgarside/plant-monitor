@@ -5,15 +5,23 @@ appendOnly: true
 
 labels:
   - label: bug
-    branch: ^bugfix\/
+    branch: ^bugfix/.+$
+
+  - label: chore
+    branch: ^chore/.+$
 
   - label: dependencies
     files:
       - ^poetry\.lock$
       - ^Pipfile\.lock$
 
+  - label: documentation
+    files:
+      - ^docs/.+$
+      - ^.+\.md$
+
   - label: enhancement
-    branch: ^feature\/
+    branch: ^feature/.+$
 
   - label: github-actions
     files:
@@ -24,7 +32,8 @@ labels:
       - ^.+\.py$
 
   - label: release
-    branch: ^release\/
+    base-branch: ^main$
+    branch: ^release/.+$
 
   - label: tests
     files:
