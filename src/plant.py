@@ -1,10 +1,11 @@
 """Classes for use in the monitor"""
 
+from __future__ import annotations
+
 from json import dumps
 from logging import DEBUG, getLogger
 from os import getenv
 from random import randint
-from typing import Optional, Union
 
 from dotenv import load_dotenv
 from wg_utilities.exceptions import on_exception  # pylint: disable=no-name-in-module
@@ -33,8 +34,8 @@ except ModuleNotFoundError:
         def __init__(
             self,
             channel: int = 1,
-            wet_point: Optional[float] = None,
-            dry_point: Optional[float] = None,
+            wet_point: float | None = None,
+            dry_point: float | None = None,
         ) -> None:
             self.channel = channel
             self._wet_point = wet_point or 10.0
@@ -125,8 +126,8 @@ class Plant:
         name: str,
         sensor_number: int,
         pump_number: int,
-        wet_point: Optional[float] = None,
-        dry_point: Optional[float] = None,
+        wet_point: float | None = None,
+        dry_point: float | None = None,
         get_limits_from_env_vars: bool = True,
     ) -> None:
         self.name = name
@@ -234,7 +235,7 @@ class Plant:
         return self._pump
 
     @property
-    def saturation(self) -> Union[str, float]:
+    def saturation(self) -> str | float:
         """Calculate the saturation value from scratch, as the `Moisture.saturation`
         is already rounded to 3dp (which then becomes 1dp when we multiply it up to a
          percentage value)
