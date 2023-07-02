@@ -1,14 +1,15 @@
-"""Classes for use in the monitor"""
+"""Classes for use in the monitor."""
+
+from __future__ import annotations
 
 from json import dumps
 from logging import DEBUG, getLogger
 from os import getenv
 from random import randint
-from typing import Optional, Union
 
 from dotenv import load_dotenv
-from wg_utilities.exceptions import on_exception  # pylint: disable=no-name-in-module
-from wg_utilities.functions import try_float  # pylint: disable=no-name-in-module
+from wg_utilities.exceptions import on_exception
+from wg_utilities.functions import try_float
 from wg_utilities.loggers import add_stream_handler
 
 load_dotenv()
@@ -27,32 +28,33 @@ except ModuleNotFoundError:
 
     LOGGER.warning("Unable to import GrowHat dependencies, running in test mode")
 
-    class Moisture:  # type: ignore
-        """Dummy class for running this on a non-Pi machine"""
+    class Moisture:  # type: ignore[no-redef]
+        """Dummy class for running this on a non-Pi machine."""
 
         def __init__(
             self,
             channel: int = 1,
-            wet_point: Optional[float] = None,
-            dry_point: Optional[float] = None,
+            wet_point: float | None = None,
+            dry_point: float | None = None,
         ) -> None:
             self.channel = channel
             self._wet_point = wet_point or 10.0
             self._dry_point = dry_point or 0.0
 
         def set_wet_point(self, value: float) -> None:
-            """Dummy function"""
+            """Set the wet point for the dummy sensor."""
             self._wet_point = value
 
         def set_dry_point(self, value: float) -> None:
-            """Dummy function"""
+            """Set the dry point for the dummy sensor."""
             self._dry_point = value
 
         @property
         def moisture(self) -> int:
-            """
+            """Return moisture level.
+
             Returns:
-                int: random integer for fake moisture reading
+                int: random integer for fake moisture reading.
             """
             return randint(0, 900)
 
@@ -63,14 +65,15 @@ except ModuleNotFoundError:
 
         @property
         def saturation(self) -> float:
-            """
+            """Return saturation level.
+
             Returns:
-                float: random float for fake saturation reading
+                float: random float for fake saturation reading.
             """
             return round(randint(0, 10000) / 100, 2)
 
-    class Pump:  # type: ignore
-        """Dummy class for running this on a non-Pi machine"""
+    class Pump:  # type: ignore[no-redef]
+        """Dummy class for running this on a non-Pi machine."""
 
         def __init__(self, *_: None, **__: None) -> None:
             pass
@@ -104,7 +107,7 @@ PLANT_NAMES = (
 
 
 class Plant:
-    """Class for monitoring (and watering, soon) plants
+    """Class for monitoring (and watering, soon) plants.
 
     Args:
         name (str): the name of the plant
@@ -125,8 +128,8 @@ class Plant:
         name: str,
         sensor_number: int,
         pump_number: int,
-        wet_point: Optional[float] = None,
-        dry_point: Optional[float] = None,
+        wet_point: float | None = None,
+        dry_point: float | None = None,
         get_limits_from_env_vars: bool = True,
     ) -> None:
         self.name = name
@@ -153,7 +156,7 @@ class Plant:
 
     @on_exception()  # type: ignore[misc]
     def get_limits_from_env_vars(self) -> None:
-        """Get the wet/dry point limits from the environment"""
+        """Get the wet/dry point limits from the environment."""
 
         if (
             wet_point := try_float(
@@ -181,7 +184,7 @@ class Plant:
 
     @on_exception()  # type: ignore[misc]
     def water(self, seconds: float) -> None:
-        """Water the plant for X seconds
+        """Water the plant for X seconds.
 
         Args:
             seconds (float): how long to water the plant for
@@ -195,9 +198,10 @@ class Plant:
 
     @property
     def home_assistant_payload(self) -> str:
-        """
+        """Return a payload for Home Assistant.
+
         Returns:
-            str: a payload for Home Assistant with the relevant readings
+            str: a payload for Home Assistant with the relevant readings.
         """
         return dumps(
             {
@@ -208,8 +212,9 @@ class Plant:
 
     @property
     def moisture(self) -> float:
-        """Return the raw moisture level. The value returned is the pulses/sec read
-         from the soil moisture sensor.
+        """Return the raw moisture level.
+
+        The value returned is the pulses/sec read from the soil moisture sensor.
 
         Returns:
             Union[str, float]: the moisture level, or a default if it's unknown
@@ -218,9 +223,11 @@ class Plant:
 
     @property
     def pump(self) -> Pump:
-        """The plant's water pump. This isn't an attribute, as only the waterer service
-        needs the pump and creating a Pump instance within the monitor service will
-        block the GPIO PWN usage
+        """The plant's water pump.
+
+        This isn't an attribute, as only the waterer service needs the pump and
+        creating a Pump instance within the monitor service will block the GPIO
+        PWM usage.
 
         Returns:
             Pump: the plant's pump
@@ -234,10 +241,11 @@ class Plant:
         return self._pump
 
     @property
-    def saturation(self) -> Union[str, float]:
-        """Calculate the saturation value from scratch, as the `Moisture.saturation`
-        is already rounded to 3dp (which then becomes 1dp when we multiply it up to a
-         percentage value)
+    def saturation(self) -> str | float:
+        """Calculate the saturation value from scratch.
+
+        The `Moisture.saturation` is already rounded to 3dp (which then becomes
+        1dp when we multiply it up to a percentage value).
 
         Returns:
             Union[str, float]: the saturation level, or a default if it's unknown
@@ -252,4 +260,5 @@ class Plant:
         return round(saturation * 100, 3)
 
     def __str__(self) -> str:
+        """Return a string representation of the plant."""
         return f"{self.name}:\t{self.moisture}"
