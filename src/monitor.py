@@ -1,4 +1,4 @@
-"""Monitors plant soil moisture and sends it to Home Assistant"""
+"""Monitors plant soil moisture and sends it to Home Assistant."""
 from __future__ import annotations
 
 from datetime import datetime
@@ -12,7 +12,7 @@ from typing import Any
 
 from dotenv import dotenv_values, load_dotenv
 from paho.mqtt.client import Client, MQTTMessage
-from wg_utilities.exceptions import on_exception  # pylint: disable=no-name-in-module
+from wg_utilities.exceptions import on_exception
 from wg_utilities.functions import force_mkdir
 from wg_utilities.loggers import add_file_handler, add_stream_handler
 
@@ -54,9 +54,7 @@ MQTT_CLIENT.username_pw_set(
 
 @on_exception()  # type: ignore[misc]
 def check_for_limit_updates() -> None:
-    """Re-load the env vars, check for updated Plant limits, and update plants
-    accordingly
-    """
+    """Re-load the env vars and update plants accordingly."""
     new_env_vars = dotenv_values()
     old_env_vars = environ.copy()
 
@@ -77,7 +75,7 @@ def check_for_limit_updates() -> None:
 # noinspection PyIncorrectDocstring
 @on_exception()  # type: ignore[misc]
 def on_message(_: Any, __: Any, message: MQTTMessage) -> None:
-    """Callback method for watering the plants on MQTT message
+    """Water the plants on MQTT message.
 
     Args:
         message (MQTTMessage): the message object from the MQTT subscription
@@ -90,7 +88,7 @@ def on_message(_: Any, __: Any, message: MQTTMessage) -> None:
 
 @on_exception()  # type: ignore[misc]
 def setup_mqtt_client() -> None:
-    """Run setup for MQTT client"""
+    """Run setup for MQTT client."""
 
     MQTT_CLIENT.connect(host=getenv("MQTT_HOST"))
 
@@ -104,7 +102,7 @@ def setup_mqtt_client() -> None:
 
 @on_exception()  # type: ignore[misc]
 def main() -> None:
-    """Send Home Assistant readings every 30 seconds"""
+    """Send Home Assistant readings every 30 seconds."""
     if not TEST_MODE:
         sleep(5)  # let the sensor initialise
 

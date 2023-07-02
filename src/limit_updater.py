@@ -1,4 +1,4 @@
-"""Subscribes to an MQTT topic, so HA can push updates to the limits"""
+"""Subscribe to an MQTT topic so HA can push updates to the limits."""
 from __future__ import annotations
 
 from datetime import datetime
@@ -11,7 +11,7 @@ from typing import Any
 from dotenv import find_dotenv, load_dotenv, set_key
 from paho.mqtt.client import MQTTMessage
 from paho.mqtt.subscribe import callback
-from wg_utilities.exceptions import on_exception  # pylint: disable=no-name-in-module
+from wg_utilities.exceptions import on_exception
 from wg_utilities.functions import force_mkdir
 from wg_utilities.loggers import add_file_handler, add_stream_handler
 
@@ -50,13 +50,13 @@ add_file_handler(
 )
 add_stream_handler(LOGGER)
 
-MQTT_AUTH_KWARGS = dict(
-    hostname=getenv("MQTT_HOST"),
-    auth={
+MQTT_AUTH_KWARGS = {
+    "hostname": getenv("MQTT_HOST"),
+    "auth": {
         "username": getenv("MQTT_USERNAME"),
         "password": getenv("MQTT_PASSWORD"),
     },
-)
+}
 
 TOPICS = [
     f"/plant_monitor/{plant_name.lower()}/{point_type}_point/set"
@@ -68,7 +68,7 @@ TOPICS = [
 # noinspection PyIncorrectDocstring
 @on_exception()  # type: ignore[misc]
 def on_message(_: Any, __: Any, message: MQTTMessage) -> None:
-    """Callback method for updating env vars on MQTT message
+    """Update environment variables on MQTT message.
 
     Args:
         message (MQTTMessage): the message object from the MQTT subscription
