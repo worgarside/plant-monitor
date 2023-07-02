@@ -1,3 +1,38 @@
+
+[tool.poetry]
+name = "plant-monitor"
+version = "0.1.0"
+description = ""
+authors = ["Will Garside <worgarside@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "plant_monitor"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+wg-utilities = {extras = ["exceptions"], version = "*"}
+font-roboto = "^0.0.1"
+fonts = "^0.0.3"
+pillow = "^10.0.0"
+paho-mqtt = "^1.6.1"
+python-dotenv = "^1.0.0"
+growhat = { platform = "linux", version = "*" }
+"rpi.gpio" = { platform = "linux", version = "*" }
+
+
+[tool.poetry.group.dev.dependencies]
+black = "*"
+pylint = "*"
+pre-commit = "*"
+yamllint = "*"
+mypy = "*"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = [
+  "poetry-core",
+]
+
 [tool.black]
 include = '\.pyi?$'
 exclude = '''
