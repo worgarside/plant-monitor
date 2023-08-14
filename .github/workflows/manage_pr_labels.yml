@@ -27,7 +27,7 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: srvaroa/labeler@v1.6.0
+      - uses: srvaroa/labeler@v1.6.1
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN || secrets.GITHUB_TOKEN }}
 
