@@ -890,13 +890,13 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 
 [[package]]
 name = "wg-utilities"
-version = "3.8.0"
+version = "4.0.0"
 description = "Loads of useful stuff for the things I do :)"
 optional = false
-python-versions = ">=3.10,<4.0"
+python-versions = ">=3.11,<4.0"
 files = [
-    {file = "wg_utilities-3.8.0-py3-none-any.whl", hash = "sha256:8197c3f0e6da792663e941fe2772f8118580d7d83c9683714d1c243652a884f6"},
-    {file = "wg_utilities-3.8.0.tar.gz", hash = "sha256:9bc182218aaeaa6bca2595d04d33d1ed6ee2628f6d54bc757af9e201d78c1522"},
+    {file = "wg_utilities-4.0.0-py3-none-any.whl", hash = "sha256:bdad471807aa1a2a27d276b7ca9d3adab731841fc5524f4b35356b4f87e6a53a"},
+    {file = "wg_utilities-4.0.0.tar.gz", hash = "sha256:9ba6bfa0e2a80662120b358d2523d722761bd2fa9b4d6f7981ffe5702076413a"},
 ]
 
 [package.dependencies]
@@ -906,12 +906,12 @@ python-dotenv = {version = "*", optional = true, markers = "extra == \"clients\"
 requests = {version = ">=2.26.0", optional = true, markers = "extra == \"clients\" or extra == \"exceptions\""}
 
 [package.extras]
-clients = ["flask (>=2.0.2)", "pydantic (<2.0.0)", "pyjwt (>=2.6,<2.8)", "python-dotenv", "pytz (>=2022.1)", "requests (>=2.26.0)", "strenum", "tzlocal"]
+clients = ["flask (>=2.0.2)", "pydantic (<3.0.0)", "pyjwt (>=2.6,<2.9)", "python-dotenv", "pytz (>=2022.1)", "requests (>=2.26.0)", "tzlocal"]
 devices-dht22 = ["pigpio"]
 devices-epd = ["pillow", "rpi.gpio", "spidev"]
-devices-yamaha-yas-209 = ["async-upnp-client", "pydantic (<2.0.0)", "xmltodict"]
+devices-yamaha-yas-209 = ["async-upnp-client", "pydantic (<3.0.0)", "xmltodict"]
 exceptions = ["python-dotenv", "requests (>=2.26.0)"]
-functions = ["lxml (==4.9.2)"]
+functions = ["lxml (==4.9.3)"]
 
 [[package]]
 name = "wrapt"
