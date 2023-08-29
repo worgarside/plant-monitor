@@ -5,11 +5,18 @@ updates:
     directory: /
     schedule:
       interval: weekly
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 20
     reviewers:
       - worgarside
 
   - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    reviewers:
+      - worgarside
+
+  - package-ecosystem: npm
     directory: /
     schedule:
       interval: weekly
