@@ -15,5 +15,4 @@ jobs:
     uses: worgarside/github-config-files/.github/workflows/__sonarcloud.yml@main
     with:
       branch: ${{ github.ref }}
-    secrets:
-      sonar-token: ${{ secrets.SONAR_TOKEN }}
+    secrets: inherit
