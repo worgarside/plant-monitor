@@ -344,16 +344,6 @@ plugins = ["setuptools"]
 requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
-name = "jetson-gpio"
-version = "2.1.1"
-description = "A module to control Jetson GPIO channels"
-optional = false
-python-versions = "*"
-files = [
-    {file = "Jetson.GPIO-2.1.1.tar.gz", hash = "sha256:8cd4f6d10ff13a75becfa35e2c26a17be27eba4a2459a5e451c278a205f9c757"},
-]
-
-[[package]]
 name = "jmespath"
 version = "1.0.1"
 description = "JSON Matching Expressions"
@@ -888,28 +878,27 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 
 [[package]]
 name = "wg-utilities"
-version = "3.8.0"
+version = "5.3.0"
 description = "Loads of useful stuff for the things I do :)"
 optional = false
-python-versions = ">=3.10,<4.0"
+python-versions = ">=3.11,<4.0"
 files = [
-    {file = "wg_utilities-3.8.0-py3-none-any.whl", hash = "sha256:8197c3f0e6da792663e941fe2772f8118580d7d83c9683714d1c243652a884f6"},
-    {file = "wg_utilities-3.8.0.tar.gz", hash = "sha256:9bc182218aaeaa6bca2595d04d33d1ed6ee2628f6d54bc757af9e201d78c1522"},
+    {file = "wg_utilities-5.3.0-py3-none-any.whl", hash = "sha256:6383602bae4a66e83c4c1e709e7939c2fc926bd4a27076955921cd4f2859013d"},
+    {file = "wg_utilities-5.3.0.tar.gz", hash = "sha256:4d73d7643e2783547f7ff31ba1d90b8d1463f73dea2a56fc64cb70f671ca1c1c"},
 ]
 
 [package.dependencies]
 botocore = "*"
-"jetson.gpio" = {version = "*", markers = "sys_platform == \"linux\""}
 python-dotenv = {version = "*", optional = true, markers = "extra == \"clients\" or extra == \"exceptions\""}
 requests = {version = ">=2.26.0", optional = true, markers = "extra == \"clients\" or extra == \"exceptions\""}
 
 [package.extras]
-clients = ["flask (>=2.0.2)", "pydantic (<2.0.0)", "pyjwt (>=2.6,<2.8)", "python-dotenv", "pytz (>=2022.1)", "requests (>=2.26.0)", "strenum", "tzlocal"]
+clients = ["flask (>=2.0.2)", "pydantic (<3.0.0)", "pyjwt (>=2.6,<2.9)", "python-dotenv", "pytz (>=2022.1)", "requests (>=2.26.0)", "tzlocal"]
 devices-dht22 = ["pigpio"]
 devices-epd = ["pillow", "rpi.gpio", "spidev"]
-devices-yamaha-yas-209 = ["async-upnp-client", "pydantic (<2.0.0)", "xmltodict"]
+devices-yamaha-yas-209 = ["async-upnp-client", "pydantic (<3.0.0)", "xmltodict"]
 exceptions = ["python-dotenv", "requests (>=2.26.0)"]
-functions = ["lxml (==4.9.2)"]
+functions = ["lxml (==4.9.3)"]
 
 [[package]]
 name = "wrapt"
