@@ -4,10 +4,13 @@ name: Run SonarCloud Scan
 on:
   push:
     branches:
-      - master
       - main
       - develop
   pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
 
 jobs:
   run-sonarcloud-scan:
