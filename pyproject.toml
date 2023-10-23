@@ -22,7 +22,6 @@ growhat = { platform = "linux", version = "*" }
 pylint = "<3.0.0"
 pre-commit = "*"
 yamllint = "*"
-mypy = "*"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
