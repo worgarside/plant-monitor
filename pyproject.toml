@@ -21,7 +21,6 @@ growhat = { platform = "linux", version = "*" }
 [tool.poetry.group.dev.dependencies]
 pylint = "<4.0.0"
 pre-commit = "*"
-yamllint = "*"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
