@@ -211,21 +211,21 @@ files = [
 
 [[package]]
 name = "growhat"
-version = "0.0.2"
+version = "0.0.3"
 description = "Grow HAT Mini. A plant valet add-on for the Raspberry Pi"
 optional = false
 python-versions = ">=3"
 files = [
-    {file = "growhat-0.0.2-py3-none-any.whl", hash = "sha256:c9967ea0b072f43ec956aa416caeacbe45095d609dffc0319ff9833e85d30d71"},
-    {file = "growhat-0.0.2.tar.gz", hash = "sha256:063fc9f201f61f7d358d9fc8d212038972e9611e57da3af972a791628ca95e8d"},
+    {file = "growhat-0.0.3-py3-none-any.whl", hash = "sha256:fe957387c93ede8cb5ca6d258cc91f08a9f7ee2fc2ee94f3b6e96edd8f36ef14"},
+    {file = "growhat-0.0.3.tar.gz", hash = "sha256:2ea6a6a29f3f273e65b28a8cfb65b8b959420f99f0596cd27ee93b406837bbd1"},
 ]
 
 [package.dependencies]
 font-roboto = "*"
 fonts = "*"
-ltr559 = "*"
+ltr559 = "0.1.1"
 pyyaml = "*"
-st7735 = "*"
+st7735 = "0.0.5"
 
 [[package]]
 name = "i2cdevice"
@@ -643,12 +643,13 @@ files = [
 
 [[package]]
 name = "st7735"
-version = "0.0.4.post1"
+version = "0.0.5"
 description = "Library to control an ST7735 168x80 TFT LCD display."
 optional = false
 python-versions = "*"
 files = [
-    {file = "ST7735-0.0.4.post1.tar.gz", hash = "sha256:19df4f5f1b12d0c625ff92302f2b6dcfd53a7989c321eed2dede9e4f408bcd17"},
+    {file = "ST7735-0.0.5-py3-none-any.whl", hash = "sha256:d801b598e07cbfeb259c9184266fcdbbddbd1d3dd02b9b7b00fe7a07d811f1f7"},
+    {file = "ST7735-0.0.5.tar.gz", hash = "sha256:7a06c281b03729fdbb2becc1e9d591e2711ef1e9a631ecdd109c5493f465f354"},
 ]
 
 [package.dependencies]
