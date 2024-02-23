@@ -14,7 +14,7 @@ font-roboto = "^0.0.1"
 fonts = "^0.0.3"
 pillow = "^10.2.0"
 paho-mqtt = "^1.6.1"
-python-dotenv = "^1.0.0"
+python-dotenv = "^1.0.1"
 growhat = { platform = "linux", version = "*" }
 "rpi.gpio" = { platform = "linux", version = "*" }
 
