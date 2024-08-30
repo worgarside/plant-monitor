@@ -14,7 +14,7 @@ jobs:
       build-branch: ${{ github.ref }}
       build-type: ''
       node-build-directory: ''
-      python-version: '3.11'
+      python-version: '3.12'
       unit-test: ''
     secrets: inherit
 
@@ -37,7 +37,7 @@ jobs:
       deploy-documentation: ''
       node-build-directory: ''
       path-to-__version__-file: ''
-      python-version: '3.11'
+      python-version: '3.12'
       release-tag: ${{ needs.ci-validation.outputs.release-tag }}
       unit-test: ''
       update-pyproject-toml: 'true'

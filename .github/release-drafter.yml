@@ -14,7 +14,10 @@ categories:
       - ha:automations
       - ha:config
       - ha:cover
+      - ha:command-line
+      - ha:custom-components
       - ha:device-tracker
+      - ha:esphome
       - ha:groups
       - ha:input-boolean
       - ha:input-button
@@ -29,6 +32,7 @@ categories:
       - ha:scenes
       - ha:scripts
       - ha:sensors
+      - ha:shell-command
       - ha:switch
       - ha:template
       - ha:variables
