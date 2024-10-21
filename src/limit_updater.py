@@ -1,4 +1,5 @@
 """Subscribe to an MQTT topic so HA can push updates to the limits."""
+
 from __future__ import annotations
 
 from datetime import datetime
