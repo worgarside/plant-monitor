@@ -1,4 +1,5 @@
 """Monitors plant soil moisture and sends it to Home Assistant."""
+
 from __future__ import annotations
 
 from datetime import datetime
