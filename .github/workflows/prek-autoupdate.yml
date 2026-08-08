@@ -1,0 +1,13 @@
+---
+name: Prek Auto-Update
+
+on:
+  schedule:
+    - cron: 0 1 * * *
+  workflow_dispatch:
+
+jobs:
+  prek-autoupdate:
+    name: Update Prek Hooks
+    uses: worgarside/github-config-files/.github/workflows/__prek-autoupdate.yml@0.3.3
+    secrets: inherit

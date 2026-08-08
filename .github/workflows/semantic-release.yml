@@ -1,0 +1,32 @@
+---
+name: Semantic Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - '!pyproject.toml'
+
+  workflow_dispatch:
+    inputs:
+      force-deployment:
+        description: Force a release at a specific level, bypassing normal detection
+        required: false
+        type: choice
+        default: auto
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    name: Release
+    uses: worgarside/github-config-files/.github/workflows/__semantic-release.yml@0.3.3
+    with:
+      python-version: '3.11'
+      force-deployment: '${{ inputs.force-deployment != &#39;auto&#39; &amp;&amp; inputs.force-deployment || &#39;&#39; }}'
+    secrets: inherit
