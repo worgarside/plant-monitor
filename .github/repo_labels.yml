@@ -9,18 +9,9 @@
     color: 8B4513
     description: Regular code maintenance
 
-  - name: bot:delete-on-merge
-    description: Delete this branch after merging (bot command)
-    color: 8B0000
-
   - name: bot:do-not-close
     description: Do not close this PR, even if it's empty (bot command)
     color: 2C6AAB
-
-  - name: bot:keep-updated
-    from_name: keep-updated
-    description: Keep this PR updated from its base branch (bot command)
-    color: 87FAA6
 
   - name: dependencies
     description: Pull requests that update a dependency file
@@ -47,11 +38,11 @@
     color: D73A4A
 
   - name: major
-    description: A major-level change or release
+    description: Backward-incompatible API changes
     color: FF0000
 
   - name: minor
-    description: A minor-level change or release
+    description: New functionality, backward-compatible
     color: FFA500
 
   - name: non-functional
@@ -59,7 +50,7 @@
     color: FFFFFF
 
   - name: patch
-    description: A patch-level change or release
+    description: Backward compatible bug fixes
     color: FFFF00
 
   - name: python

@@ -13,7 +13,7 @@ labels:
   - label: dependencies
     files:
       - ^Pipfile\.lock$
-      - ^poetry\.lock$
+      - ^uv\.lock$
       - ^requirements\.txt$
 
   - label: dependencies
