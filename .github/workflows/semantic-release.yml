@@ -25,7 +25,7 @@ on:
 jobs:
   release:
     name: Release
-    uses: worgarside/github-config-files/.github/workflows/__semantic-release.yml@0.3.3
+    uses: worgarside/github-config-files/.github/workflows/__semantic-release.yml@0.4.0
     with:
       python-version: '3.11'
       force-deployment: '${{ inputs.force-deployment != &#39;auto&#39; &amp;&amp; inputs.force-deployment || &#39;&#39; }}'
