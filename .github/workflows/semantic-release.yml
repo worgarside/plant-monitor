@@ -30,8 +30,8 @@ concurrency:
 jobs:
   release:
     name: Release
-    uses: worgarside/github-config-files/.github/workflows/__semantic-release.yml@0.5.2
+    uses: worgarside/github-config-files/.github/workflows/__semantic-release.yml@0.5.3
     with:
       python-version: '3.11'
-      force-deployment: '${{ inputs.force-deployment != 'auto' && inputs.force-deployment || '' }}'
+      force-deployment: "${{ inputs.force-deployment != 'auto' && inputs.force-deployment || '' }}"
     secrets: inherit
