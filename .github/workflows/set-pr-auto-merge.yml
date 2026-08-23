@@ -16,7 +16,7 @@ jobs:
   set-auto-merge:
     name: Set PR Auto Merge
     if: ${{ !github.event.pull_request.draft }}
-    uses: worgarside/github-config-files/.github/workflows/__set-pr-auto-merge.yml@0.6.0
+    uses: worganisation/github-config-files/.github/workflows/__set-pr-auto-merge.yml@0.6.0
     with:
       head-ref: ${{ github.head_ref }}
       pr-html-url: ${{ github.event.pull_request.html_url }}
