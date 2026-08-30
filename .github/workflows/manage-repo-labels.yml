@@ -13,6 +13,6 @@ on:
 jobs:
   manage-repo-labels:
     name: Manage Repo Labels
-    uses: worganisation/github-config-files/.github/workflows/__manage-repo-labels.yml@0.7.3
+    uses: worganisation/github-config-files/.github/workflows/__manage-repo-labels.yml@0.7.4
     permissions:
       issues: write
