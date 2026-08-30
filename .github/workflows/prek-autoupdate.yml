@@ -9,5 +9,5 @@ on:
 jobs:
   prek-autoupdate:
     name: Update Prek Hooks
-    uses: worganisation/github-config-files/.github/workflows/__prek-autoupdate.yml@0.7.1
+    uses: worganisation/github-config-files/.github/workflows/__prek-autoupdate.yml@0.7.2
     secrets: inherit
