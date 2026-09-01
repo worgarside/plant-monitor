@@ -20,7 +20,7 @@ concurrency:
 jobs:
   prek:
     name: Prek Hooks
-    uses: worganisation/github-config-files/.github/workflows/__prek-hooks.yml@0.7.4
+    uses: worganisation/github-config-files/.github/workflows/__prek-hooks.yml@0.8.0
     with:
       python-version: '3.11'
       sync-project-dependencies: 'true'
