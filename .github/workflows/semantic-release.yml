@@ -1,0 +1,40 @@
+---
+name: Semantic Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - '!pyproject.toml'
+
+  workflow_dispatch:
+    inputs:
+      force-deployment:
+        description: >-
+          Version component to force, or auto to use semantic commit parsing.
+        required: false
+        type: choice
+        default: auto
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+
+concurrency:
+  group: semantic-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Release
+    uses: worganisation/github-config-files/.github/workflows/__semantic-release.yml@0.8.2
+    with:
+      python-version: '3.11'
+      force-deployment: "${{ inputs.force-deployment != 'auto' && inputs.force-deployment || '' }}"
+    secrets: inherit
